@@ -26,3 +26,16 @@ INSERT INTO plant_store VALUES
 SELECT * FROM plant_store ORDER BY Price ASC;
 
 
+--what is the avg price of items in the bulk section? 
+
+SELECT AVG(price) "avg leafy item price"
+FROM plant_store
+where plant_type='leafy
+
+
+--Show the number of items
+
+SELECT no_items, plant_type
+FROM plant_store
+order by no_items asc
+;
