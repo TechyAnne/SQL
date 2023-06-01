@@ -1,0 +1,28 @@
+--Create a grocery store database
+
+CREATE TABLE plant_store
+(id INTEGER PRIMARY KEY, items TEXT, No_items INTEGER, price INTEGER, plant_type TEXT);
+
+INSERT INTO plant_store VALUES
+(1,"anthurium", 3, 85, "flowering"),
+(2, "pothos", 2, 30, "Leafy"),
+(3, "montsera", 5, 110, "Leafy"),
+(4, "snake plant", 5, 10, "leafy"),
+(5, "Orchid", 5, 150, "Flowering"),
+(6, "Rose", 5, 250, "Flowering"),
+(7, "Begonia", 5, 50, "Flowering"),
+(8, "Zinia", 5, 10, "FloweringL"),
+(9, "Petunia", 5, 30, "Flowering"),
+(10, "Bougainvilla", 5, 40, "Flowering"),
+(11, "Fern", 5, 60, "Leafy"),
+(12, "Sunflower", 5, 20, "Flowering"),
+(13, "Cactus", 1, 30, "Leafy"),
+(14, "lansones", 5, 220, "Fruits"),
+(15, "Durian", 5, 300, "Fruits")
+;
+
+--display the database ordered by price.
+
+SELECT * FROM plant_store ORDER BY Price ASC;
+
+
