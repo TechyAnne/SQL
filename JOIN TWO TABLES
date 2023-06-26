@@ -1,0 +1,30 @@
+/* Create table about the people and what they do here */
+
+CREATE TABLE persons (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT, phone_number TEXT);
+
+CREATE TABLE books (id INTEGER PRIMARY KEY, person_id INTEGER, title TEXT, word_count INTEGER);
+
+INSERT INTO persons (name, email, phone_number) VALUES ("Stephen King", "stephenking@gmail.com", "123-4567");
+INSERT INTO persons (name, email, phone_number) VALUES ("J.K. Rowlings", "jkrowlings@gmail.com", "456-7890");
+INSERT INTO persons (name, email, phone_number) VALUES ("Ernest Hemingway", "ernesthemengway@gmail.com", "567-8901");
+INSERT INTO persons (name, email, phone_number) VALUES ("Charles Dickens", "charlesdickens@gmail.com", "890-1234");
+INSERT INTO persons (name, email, phone_number) VALUES ("Marianne Relabo", "mariannerelabo@gmail.com", "901-2345");
+
+
+INSERT INTO books (person_id, title, word_count) VALUES ("1", "It", "445134");
+INSERT INTO books (person_id, title, word_count) VALUES ("1", "Misery", "110565")
+;
+INSERT INTO books (person_id, title, word_count) VALUES ("1", "The Shining", "545789");
+INSERT INTO books (person_id, title, word_count) VALUES ("2", "Harry potter", "1356789");
+INSERT INTO books (person_id, title, word_count) VALUES ("2", "Troubled Blood", "456765");
+INSERT INTO books (person_id, title, word_count) VALUES ("3", "The Old Man and The Sea", "397263");
+INSERT INTO books (person_id, title, word_count) VALUES ("3", "A Moveable Feast", "689203");
+INSERT INTO books (person_id, title, word_count) VALUES ("4", "Oliver Twist", "782340");
+
+
+SELECT persons.name, SUM(books.word_count) AS total_words
+    FROM persons
+    LEFT OUTER JOIN books
+    ON persons.id = books.person_id
+    GROUP BY persons.name
+    ORDER BY total_words ASC;
