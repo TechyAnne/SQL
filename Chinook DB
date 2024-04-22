@@ -1,0 +1,126 @@
+# For this project, I downloaded Chinook DB from Kaggle.
+# Then I created a table to insert Chinook data into.
+# Finally, I performed analytics on the data using SQL. 
+
+# Show Customers (their full names, customer ID, and country) who are not in the US. (Hint: != or <> can be used to say "is not equal to").
+SELECT FirstName
+, LastName
+, CustomerID
+, Country
+FROM chinook.customers
+WHERE Country <> 'USA';
+
+
+# Show only the Customers from Brazil.
+SELECT *
+FROM chinook.customers
+WHERE Country ='Brazil';
+
+
+# Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+, c.LastName
+, I.InvoiceId
+, I.InvoiceDate
+, I.BillingCountry
+FROM chinook.customers C
+LEFT JOIN chinook.invoices I
+ON C.CustomerId = I.CustomerID
+WHERE I.BillingCountry = 'Brazil'
+;
+
+
+# Show the Employees who are Sales Agents.
+SELECT *
+FROM Chinook.employees
+WHERE Title LIKE '%Sales%Agent%'
+;
+
+
+# Find a unique/distinct list of billing countries from the Invoice table.
+SELECT DISTINCT BillingCountry 
+FROM Chinook.invoices
+ORDER BY BillingCountry ASC;
+
+
+# Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+SELECT I.InvoiceID 
+, E.LastName
+, E.FirstName
+FROM chinook.Invoices I
+JOIN chinook.customers C ON I.CustomerId = C.CustomerId
+JOIN chinook.employees E ON C.SupportRepid = E.EmployeeID;
+
+
+# Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+SELECT C.LastName
+, C.FirstName
+, C.Country
+, I.Total
+, E.LastName
+, E.FirstName
+FROM chinook.Invoices I
+JOIN chinook.customers C ON I.CustomerId = C.CustomerId
+JOIN chinook.employees E ON C.SupportRepid = E.EmployeeID;
+
+
+# How many Invoices were there in 2009?
+SELECT COUNT(*)
+FROM Chinook.invoices
+WHERE InvoiceDate LIKE '%2009%';
+
+
+# What are the total sales for 2009?
+SELECT ROUND(SUM(Total),2) AS Total
+FROM Chinook.invoices
+WHERE InvoiceDate LIKE '%2009%';
+
+
+# Write a query that includes the purchased track name with each invoice line ID.
+SELECT T.Name
+, I.InvoiceLineId
+From Chinook.invoice_items I
+JOIN Chinook.tracks T
+ON T.TrackId = I.TrackId;
+
+
+# Write a query that includes the purchased track name AND artist name with each invoice line ID.
+SELECT T.Name
+, A.Name
+, I.InvoiceLineId
+From Chinook.invoice_items I
+LEFT JOIN Chinook.tracks T ON T.TrackId = I.TrackId
+INNER JOIN Chinook.albums Alb ON T.AlbumId = Alb.Albumid
+LEFT JOIN Chinook.artists A ON Alb.Artistid = A.Artistid;
+
+
+# Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+SELECT T.Name AS 'Track Name'
+, MT.Name AS 'Media Name'
+, G.Name AS 'Genre Name'
+FROM Chinook.tracks T
+JOIN Chinook.media_types MT ON T.MediaTypeid = MT.MediaTypeid
+JOIN Chinook.genres G ON T.Genreid = G.Genreid;
+
+
+# Show the total sales made by each sales agent.
+SELECT E.LastName
+, E.FirstName
+, ROUND(SUM(I.Total), 2)
+FROM Chinook.employees E
+JOIN Chinook.customers C ON E.Employeeid=C.SupportRepid
+JOIN Chinook.invoices I ON C.Customerid = I.Customerid
+WHERE E.Title = 'Sales Support Agent'
+GROUP BY E.FirstName;
+
+
+# Which sales agent made the most dollars in sales in 2009?
+SELECT E.LastName
+, E.FirstName
+, ROUND(SUM(I.Total), 2) AS Total
+FROM Chinook.employees E
+JOIN Chinook.customers C ON E.Employeeid=C.SupportRepid
+JOIN Chinook.invoices I ON C.Customerid = I.Customerid
+WHERE E.Title = 'Sales Support Agent'
+AND I.InvoiceDate LIKE '%2009%'
+GROUP BY E.FirstName
+ORDER BY Total DESC LIMIT 1;
